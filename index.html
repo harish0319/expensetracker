@@ -19,6 +19,19 @@
                 <label for="expense-amount" class="form-label">Amount</label>
                 <input type="number" class="form-control" id="expense-amount" required>
             </div>
+            <div class="mb-3">
+                <label for="expense-description" class="form-label">Description</label>
+                <input type="text" class="form-control" id="expense-description" required>
+            </div>
+            <div class="mb-3">
+                <label for="expense-type" class="form-label">Expense Type</label>
+                <select class="form-select" id="expense-type" required>
+                    <option value="Food">Food</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Entertainment">Entertainment</option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary">Add Expense</button>
         </form>
         <hr>
