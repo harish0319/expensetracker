@@ -10,27 +10,41 @@
 <body>
     <div class="container">
         <h1 class="text-center mb-4">Expense Tracker</h1>
-        <form id="expense-form">
+        <form id="expense-form" class="needs-validation" novalidate>
             <div class="mb-3">
                 <label for="expense-name" class="form-label">Expense Name</label>
                 <input type="text" class="form-control" id="expense-name" required>
+                <div class="invalid-feedback">
+                    Please enter an expense name.
+                </div>
             </div>
             <div class="mb-3">
                 <label for="expense-amount" class="form-label">Amount</label>
                 <input type="number" class="form-control" id="expense-amount" required>
+                <div class="invalid-feedback">
+                    Please enter an amount.
+                </div>
             </div>
             <div class="mb-3">
                 <label for="expense-description" class="form-label">Description</label>
                 <input type="text" class="form-control" id="expense-description" required>
+                <div class="invalid-feedback">
+                    Please enter a description.
+                </div>
             </div>
             <div class="mb-3">
                 <label for="expense-type" class="form-label">Expense Type</label>
                 <select class="form-select" id="expense-type" required>
+                    <option value="" selected disabled>Select type</option>
                     <option value="Food">Food</option>
                     <option value="Transport">Transport</option>
                     <option value="Utilities">Utilities</option>
+                    <option value="Medical">Medical</option>
                     <option value="Entertainment">Entertainment</option>
                 </select>
+                <div class="invalid-feedback">
+                    Please select an expense type.
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Add Expense</button>
         </form>

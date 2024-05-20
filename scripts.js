@@ -65,6 +65,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // Handle form submit
     expenseForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        if (!expenseForm.checkValidity()) {
+            expenseForm.classList.add('was-validated');
+            return;
+        }
         const expense = {
             name: expenseName.value,
             amount: parseFloat(expenseAmount.value),
@@ -76,6 +80,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         expenses.push(expense);
         saveExpenses(expenses);
         expenseForm.reset();
+        expenseForm.classList.remove('was-validated');
     });
 
     // Initial load
