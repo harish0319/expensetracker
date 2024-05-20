@@ -1,0 +1,10 @@
+body {
+    padding-top: 50px;
+}
+.container {
+    max-width: 600px;
+}
+.expenses-list {
+    max-height: 400px;
+    overflow-y: auto;
+}

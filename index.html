@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Expense Tracker</h1>
+        <form id="expense-form">
+            <div class="mb-3">
+                <label for="expense-name" class="form-label">Expense Name</label>
+                <input type="text" class="form-control" id="expense-name" required>
+            </div>
+            <div class="mb-3">
+                <label for="expense-amount" class="form-label">Amount</label>
+                <input type="number" class="form-control" id="expense-amount" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Expense</button>
+        </form>
+        <hr>
+        <h2 class="mb-3">Expenses</h2>
+        <ul id="expenses-list" class="list-group expenses-list">
+            <!-- List of expenses will appear here -->
+        </ul>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
