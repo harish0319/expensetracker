@@ -6,15 +6,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const expenseType = document.getElementById('expense-type');
     const expensesList = document.getElementById('expenses-list');
 
-    // Load expenses from local storage
-    const loadExpenses = () => {
-        const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
-        expenses.forEach(expense => addExpenseToDOM(expense));
-    };
-
-    // Save expenses to local storage
-    const saveExpenses = (expenses) => {
-        localStorage.setItem('expenses', JSON.stringify(expenses));
+    // Load expenses from the server
+    const loadExpenses = async () => {
+        try {
+            const response = await fetch('/api/expenses');
+            const expenses = await response.json();
+            expensesList.innerHTML = ''; // Clear the list before adding items
+            expenses.forEach(expense => addExpenseToDOM(expense));
+        } catch (error) {
+            console.error('Error loading expenses:', error);
+        }
     };
 
     // Add expense to DOM
@@ -31,23 +32,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
         li.querySelector('.edit-btn').addEventListener('click', () => {
             editExpense(expense, li);
         });
-        li.querySelector('.delete-btn').addEventListener('click', () => {
-            removeExpense(expense);
+        li.querySelector('.delete-btn').addEventListener('click', async () => {
+            await removeExpense(expense);
             li.remove();
         });
         expensesList.appendChild(li);
     };
 
-    // Remove expense from local storage
-    const removeExpense = (expenseToRemove) => {
-        let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
-        expenses = expenses.filter(expense => 
-            expense.name !== expenseToRemove.name || 
-            expense.amount !== expenseToRemove.amount ||
-            expense.description !== expenseToRemove.description ||
-            expense.type !== expenseToRemove.type
-        );
-        saveExpenses(expenses);
+    // Remove expense from the server
+    const removeExpense = async (expenseToRemove) => {
+        try {
+            await fetch(`/api/expenses/${expenseToRemove.id}`, { method: 'DELETE' });
+        } catch (error) {
+            console.error('Error removing expense:', error);
+        }
     };
 
     // Edit expense
@@ -57,13 +55,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
         expenseAmount.value = expense.amount;
         expenseDescription.value = expense.description;
         expenseType.value = expense.type;
-        // Remove the current expense from the list and local storage
+        // Remove the current expense from the list and server
         listItem.remove();
         removeExpense(expense);
     };
 
     // Handle form submit
-    expenseForm.addEventListener('submit', (e) => {
+    expenseForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!expenseForm.checkValidity()) {
             expenseForm.classList.add('was-validated');
@@ -75,10 +73,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
             description: expenseDescription.value,
             type: expenseType.value
         };
-        addExpenseToDOM(expense);
-        const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
-        expenses.push(expense);
-        saveExpenses(expenses);
+
+        try {
+            const response = await fetch('/api/expenses', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(expense)
+            });
+
+            if (response.ok) {
+                const newExpense = await response.json();
+                addExpenseToDOM(newExpense);
+            } else {
+                console.error('Failed to add expense');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
         expenseForm.reset();
         expenseForm.classList.remove('was-validated');
     });
